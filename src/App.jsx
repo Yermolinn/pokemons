@@ -71,8 +71,9 @@ const App = () => {
 
   const filteredPokemon = pokeData.filter(
     (pokemon) =>
-      selectedType === "" ||
-      pokemon.types.some((type) => type.type.name === selectedType)
+      (selectedType === "" ||
+        pokemon.types.some((type) => type.type.name === selectedType)) &&
+      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
   );
 
   const totalPages = Math.ceil(filteredPokemon.length / itemsPerPage);
@@ -96,6 +97,7 @@ const App = () => {
               searchTerm={searchTerm}
               pokeData={pokeData}
               loading={loading}
+              selectedType={selectedType}
               currentPage={currentPage}
               totalPages={totalPages}
               setCurrentPage={setCurrentPage}

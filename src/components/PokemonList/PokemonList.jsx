@@ -9,14 +9,17 @@ const PokemonList = ({
   currentPage,
   searchTerm,
   itemsPerPage,
+  selectedType,
 }) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const visiblePokemon = searchTerm
-    ? pokeData.filter((pokemon) =>
-        pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
-      )
-    : pokeData.slice(startIndex, endIndex);
+  const visiblePokemon = pokeData
+    .filter(
+      (pokemon) =>
+        selectedType === "" ||
+        pokemon.types.some((type) => type.type.name === selectedType)
+    )
+    .slice(startIndex, endIndex);
 
   return (
     <div>
@@ -49,6 +52,7 @@ PokemonList.propTypes = {
   setCurrentPage: PropTypes.func.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
   searchTerm: PropTypes.string.isRequired,
+  selectedType: PropTypes.string.isRequired,
 };
 
 export default PokemonList;
