@@ -1,5 +1,4 @@
 import PropTypes from "prop-types";
-
 import { PokemonCard } from "../PokemonCard/PokemonCard";
 import { List, LinkCard } from "./PokemonList.styled";
 import { Loader } from "../Loader/Loader";

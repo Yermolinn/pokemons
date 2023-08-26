@@ -1,12 +1,11 @@
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { useState, useEffect } from "react";
+import { Routes, Route } from "react-router-dom";
 import PokemonList from "./components/PokemonList/PokemonList";
 import PokemonInfo from "./components/PokemonInfo/PokemonInfo";
-// import usePokemonData from "././services/usePokemonData";
 import { BtnGroup } from "./components/BtnGroup/BtnGroup";
 import { Pagin } from "./components/Pagination/Pagination";
-import { useState, useEffect } from "react";
-import axios from "axios";
 import { Title, Container } from "./App.styled";
+import axios from "axios";
 
 const App = () => {
   const baseUrl = "https://pokeapi.co/api/v2/pokemon";
@@ -79,44 +78,42 @@ const App = () => {
   const totalPages = Math.ceil(filteredPokemon.length / itemsPerPage);
 
   return (
-    <Router>
-      <Routes>
-        <Route
-          path="/"
-          element={
-            <Container>
-              <Title>Catch pokemons</Title>
-              <BtnGroup
-                searchTerm={searchTerm}
-                setSearchTerm={setSearchTerm}
-                selectedType={selectedType}
-                handleTypeChange={handleTypeChange}
-                itemsPerPage={itemsPerPage}
-                handleItemsPerPageChange={handleItemsPerPageChange}
-              />
-              <PokemonList
-                searchTerm={searchTerm}
-                pokeData={pokeData}
-                loading={loading}
-                currentPage={currentPage}
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage}
-                itemsPerPage={itemsPerPage}
-              />
-              <Pagin
-                currentPage={currentPage}
-                totalPages={totalPages}
-                setCurrentPage={setCurrentPage}
-              />
-            </Container>
-          }
-        />
-        <Route
-          path="/pokemon/:id"
-          element={<PokemonInfo pokeData={pokeData} />}
-        />
-      </Routes>
-    </Router>
+    <Routes>
+      <Route
+        path="/"
+        element={
+          <Container>
+            <Title>Catch pokemons</Title>
+            <BtnGroup
+              searchTerm={searchTerm}
+              setSearchTerm={setSearchTerm}
+              selectedType={selectedType}
+              handleTypeChange={handleTypeChange}
+              itemsPerPage={itemsPerPage}
+              handleItemsPerPageChange={handleItemsPerPageChange}
+            />
+            <PokemonList
+              searchTerm={searchTerm}
+              pokeData={pokeData}
+              loading={loading}
+              currentPage={currentPage}
+              totalPages={totalPages}
+              setCurrentPage={setCurrentPage}
+              itemsPerPage={itemsPerPage}
+            />
+            <Pagin
+              currentPage={currentPage}
+              totalPages={totalPages}
+              setCurrentPage={setCurrentPage}
+            />
+          </Container>
+        }
+      />
+      <Route
+        path="/pokemon/:id"
+        element={<PokemonInfo pokeData={pokeData} />}
+      />
+    </Routes>
   );
 };
 
