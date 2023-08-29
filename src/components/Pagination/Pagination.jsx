@@ -9,7 +9,7 @@ export const Pagin = ({ currentPage, totalPages, setCurrentPage }) => {
       <Stack spacing={2}>
         <Pagination
           shape="rounded"
-          siblingCount={0}
+          siblingCount={1}
           count={totalPages}
           page={currentPage}
           onChange={(_, newPage) => setCurrentPage(newPage)}

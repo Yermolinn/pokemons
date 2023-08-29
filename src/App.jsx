@@ -4,57 +4,36 @@ import PokemonList from "./components/PokemonList/PokemonList";
 import PokemonInfo from "./components/PokemonInfo/PokemonInfo";
 import { BtnGroup } from "./components/BtnGroup/BtnGroup";
 import { Pagin } from "./components/Pagination/Pagination";
+import { fetchAllPokemon, searchPokemonByName } from "./services/Api";
+
 import { Title, Container } from "./App.styled";
-import axios from "axios";
 
 const App = () => {
-  const baseUrl = "https://pokeapi.co/api/v2/pokemon";
-
   const [pokeData, setPokeData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [url, setUrl] = useState(`${baseUrl}?limit=250&offset=0`);
-  const [searchTerm, setSearchTerm] = useState("");
+  const [search, setSearch] = useState("");
   const [selectedType, setSelectedType] = useState("");
   const [currentPage, setCurrentPage] = useState(1);
   const [itemsPerPage, setItemsPerPage] = useState(10);
 
-  const fetchPokeData = async () => {
-    setLoading(true);
-    try {
-      const response = await axios.get(url, {
-        params: {
-          limit: itemsPerPage,
-          offset: (currentPage - 1) * itemsPerPage,
-        },
-      });
-      getPokemon(response.data.results);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-    }
-    setLoading(false);
-  };
-
-  const getPokemon = async (res) => {
-    const pokemonData = await Promise.all(
-      res.map(async (item) => {
-        const result = await axios.get(item.url);
-        const formattedName =
-          item.name.charAt(0).toUpperCase() + item.name.slice(1);
-        return { ...result.data, name: formattedName };
-      })
-    );
-
-    setPokeData(pokemonData);
-  };
-
   useEffect(() => {
-    fetchPokeData();
-  }, [url]);
+    const fetchData = async () => {
+      setLoading(true);
 
-  useEffect(() => {
-    fetchPokeData();
-    setCurrentPage(1);
-  }, [itemsPerPage]);
+      const data = await fetchAllPokemon(1281, 0);
+      const pokemonData = await Promise.all(
+        data.map(async (item) => {
+          const pokemonDetails = await searchPokemonByName(item.name);
+          return pokemonDetails;
+        })
+      );
+
+      setPokeData(pokemonData);
+      setLoading(false);
+    };
+
+    fetchData();
+  }, []);
 
   const handleTypeChange = (event) => {
     setSelectedType(event.target.value);
@@ -71,9 +50,8 @@ const App = () => {
 
   const filteredPokemon = pokeData.filter(
     (pokemon) =>
-      (selectedType === "" ||
-        pokemon.types.some((type) => type.type.name === selectedType)) &&
-      pokemon.name.toLowerCase().includes(searchTerm.toLowerCase())
+      selectedType === "" ||
+      pokemon.types.some((type) => type.type.name === selectedType)
   );
 
   const totalPages = Math.ceil(filteredPokemon.length / itemsPerPage);
@@ -86,22 +64,22 @@ const App = () => {
           <Container>
             <Title>Catch pokemons</Title>
             <BtnGroup
-              searchTerm={searchTerm}
-              setSearchTerm={setSearchTerm}
+              search={search}
+              setSearch={setSearch}
               selectedType={selectedType}
               handleTypeChange={handleTypeChange}
               itemsPerPage={itemsPerPage}
               handleItemsPerPageChange={handleItemsPerPageChange}
             />
             <PokemonList
-              searchTerm={searchTerm}
+              search={search}
               pokeData={pokeData}
               loading={loading}
-              selectedType={selectedType}
               currentPage={currentPage}
               totalPages={totalPages}
               setCurrentPage={setCurrentPage}
               itemsPerPage={itemsPerPage}
+              selectedType={selectedType}
             />
             <Pagin
               currentPage={currentPage}

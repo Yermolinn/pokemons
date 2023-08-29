@@ -7,17 +7,20 @@ const PokemonList = ({
   pokeData,
   loading,
   currentPage,
-  searchTerm,
+  search,
   itemsPerPage,
   selectedType,
 }) => {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
+
   const visiblePokemon = pokeData
     .filter(
       (pokemon) =>
-        selectedType === "" ||
-        pokemon.types.some((type) => type.type.name === selectedType)
+        (selectedType === "" ||
+          pokemon.types.some((type) => type.type.name === selectedType)) &&
+        (search === "" ||
+          pokemon.name.toLowerCase().includes(search.toLowerCase()))
     )
     .slice(startIndex, endIndex);
 
@@ -51,7 +54,7 @@ PokemonList.propTypes = {
   totalPages: PropTypes.number.isRequired,
   setCurrentPage: PropTypes.func.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
-  searchTerm: PropTypes.string.isRequired,
+  search: PropTypes.string.isRequired,
   selectedType: PropTypes.string.isRequired,
 };
 

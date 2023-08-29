@@ -3,13 +3,17 @@ import { InputLabel, TextField, Select, MenuItem } from "@mui/material";
 import { Container } from "./BtnGroup.styled";
 
 export const BtnGroup = ({
-  searchTerm,
-  setSearchTerm,
+  search,
+  setSearch,
   selectedType,
   handleTypeChange,
   itemsPerPage,
   handleItemsPerPageChange,
 }) => {
+  const handlePageChange = (event) => {
+    const newPage = event.target.value;
+    setCurrentPage(newPage);
+  };
   return (
     <>
       <Container>
@@ -26,12 +30,7 @@ export const BtnGroup = ({
         </Select>
 
         <InputLabel id="type">Type</InputLabel>
-        <Select
-          labelId="type"
-          value={selectedType}
-          label="Type"
-          onChange={handleTypeChange}
-        >
+        <Select labelId="type" value={selectedType} onChange={handleTypeChange}>
           <MenuItem value="">-All-</MenuItem>
           <MenuItem value="normal">Normal</MenuItem>
           <MenuItem value="fire">Fire</MenuItem>
@@ -59,8 +58,8 @@ export const BtnGroup = ({
           variant="outlined"
           type="text"
           placeholder="Search Pokemon"
-          value={searchTerm}
-          onChange={(e) => setSearchTerm(e.target.value)}
+          value={search}
+          onChange={(e) => setSearch(e.target.value)}
         />
       </Container>
     </>
@@ -68,8 +67,8 @@ export const BtnGroup = ({
 };
 
 BtnGroup.propTypes = {
-  searchTerm: PropTypes.string.isRequired,
-  setSearchTerm: PropTypes.func.isRequired,
+  search: PropTypes.string.isRequired,
+  setSearch: PropTypes.func.isRequired,
   selectedType: PropTypes.string.isRequired,
   handleTypeChange: PropTypes.func.isRequired,
   itemsPerPage: PropTypes.number.isRequired,
