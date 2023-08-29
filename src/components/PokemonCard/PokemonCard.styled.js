@@ -1,7 +1,7 @@
 import styled from "@emotion/styled";
 
 export const Card = styled.div`
-  width: 220px;
+  width: 300px;
   background-color: #213547;
   border-radius: 5px;
   border: 2px rgb(55, 227, 236) solid;
@@ -17,5 +17,9 @@ export const Card = styled.div`
 
   :hover {
     scale: 1.05;
+  }
+
+  a{
+    text-align: left;
   }
 `;

@@ -13,6 +13,7 @@ export const Description = styled.div`
 
   justify-content: center;
   align-items: center;
+  text-align: center;
   border-radius: 20px;
   box-shadow: -2.5777px 6.87386px 20.6216px rgba(0, 0, 0, 0.23);
 

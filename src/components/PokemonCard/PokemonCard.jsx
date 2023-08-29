@@ -1,4 +1,6 @@
 import PropTypes from "prop-types";
+import { formatString } from "../../services/formatString";
+
 import { Card } from "./PokemonCard.styled";
 
 export const PokemonCard = ({ pokemon }) => {
@@ -6,7 +8,7 @@ export const PokemonCard = ({ pokemon }) => {
     <Card onClick={() => pokemon}>
       <b>#{pokemon.id}</b>
       <img src={pokemon.sprites.front_default} alt="" width={40} height={40} />
-      <p>{pokemon.name}</p>
+      <p>{formatString(pokemon.name)}</p>
     </Card>
   );
 };
