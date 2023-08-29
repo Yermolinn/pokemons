@@ -6,6 +6,7 @@ export const Description = styled.div`
   flex-direction: column;
   gap: 12px;
   margin-bottom: 30px;
+  margin-top: 60px;
   font-size: 16px;
   width: 100%;
   height: auto;
